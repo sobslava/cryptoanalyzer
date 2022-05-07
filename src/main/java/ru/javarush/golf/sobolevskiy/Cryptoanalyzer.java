@@ -14,7 +14,7 @@ public class Cryptoanalyzer {
         System.out.println("Введите номер режима:\n" +
                 "\t1. Шифрование\n" +
                 "\t2. Расшифровка\n" +
-                "\t3. Криптоанализ\n" +
+                "\t3. Криптоанализ (Brute Force)\n" +
                 "\t4. Статистический анализ\n" +
                 "\t5. ВЫХОД");
         System.out.println("Программа использует файлы: input.txt, output.txt, other.txt");
@@ -47,7 +47,7 @@ public class Cryptoanalyzer {
         if (mode == 3) {
             System.out.println("Поиск ключа ...");
             BruteForce bruteForce = new BruteForce();
-            int key = bruteForce.findShiftByPatterns(new FileReader(outputPath));
+            int key = bruteForce.findShiftByPatterns(new FileReader(inputPath));
             System.out.println("Найден ключ: " + key);
             return;
         }
