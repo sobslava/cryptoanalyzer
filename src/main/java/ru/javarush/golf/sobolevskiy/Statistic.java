@@ -19,6 +19,13 @@ public class Statistic extends CommonData {
         return -1;
     }
 
+    /**
+     * Расшифровка на базе статистики из дополнительного файла анализа
+     * @param inputPath - путь к входному файл
+     * @param outputPath - путь к выходному файл
+     * @param otherPath - путь к файлу для анализа
+     * @throws IOException - ошибки ввода-вывода
+     */
     public void decodeBySampleFile(String inputPath, String outputPath, String otherPath)
             throws IOException {
         FileReader fileReader = new FileReader(inputPath);
