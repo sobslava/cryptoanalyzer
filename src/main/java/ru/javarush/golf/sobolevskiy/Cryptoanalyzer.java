@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Cryptoanalyzer {
-    private static final String inputPath = "input.txt";
-    private static final String outputPath = "output.txt";
-    private static final String otherPath = "other.txt";
+    private static final String INPUT_PATH = "input.txt";
+    private static final String OUTPUT_TXT = "output.txt";
+    private static final String OTHER_TXT = "other.txt";
 
     public static void main(String[] args) throws IOException {
         System.out.println("Введите номер режима:\n" +
@@ -22,42 +22,55 @@ public class Cryptoanalyzer {
         Scanner console = new Scanner(System.in);
         int mode = console.nextInt();
 
-        if (mode == 5)
-            return;
-
-        // Шифровка
-        if (mode == 1) {
-            System.out.println("Введите сдвиг:");
-            int shift = console.nextInt();
-            Caesar caesar = new Caesar();
-            caesar.fileCrypt(shift, new FileReader(inputPath), new FileWriter(outputPath));
-            return;
-        }
-
-        // Дешифровка
-        if (mode == 2) {
-            System.out.println("Введите сдвиг:");
-            int shift = console.nextInt();
-            Caesar caesar = new Caesar();
-            caesar.fileDeCrypt(shift, new FileReader(inputPath), new FileWriter(outputPath));
-            return;
-        }
-
-        // Криптоанализ
-        if (mode == 3) {
-            System.out.println("Поиск ключа ...");
-            BruteForce bruteForce = new BruteForce();
-            int key = bruteForce.findShiftByPatterns(new FileReader(inputPath));
-            System.out.println("Найден ключ: " + key);
-            return;
-        }
-
-        // Статистический анализ
-        if (mode == 4) {
-            System.out.println("Статистический анализ ...");
-            Statistic statistic = new Statistic();
-            statistic.decodeBySampleFile(inputPath, outputPath, otherPath);
-            return;
+        switch (mode) {
+            case 1: { // Шифровка
+                System.out.println("Введите сдвиг:");
+                int shift = console.nextInt();
+                Caesar caesar = new Caesar();
+                try (
+                        FileReader fileReader = new FileReader(INPUT_PATH);
+                        FileWriter fileWriter = new FileWriter(OUTPUT_TXT)) {
+                    caesar.fileCrypt(shift, fileReader, fileWriter);
+                }
+                break;
+            }
+            case 2: { // Дешифровка
+                System.out.println("Введите сдвиг:");
+                int shift = console.nextInt();
+                Caesar caesar = new Caesar();
+                try (
+                    FileReader fileReader = new FileReader(INPUT_PATH);
+                    FileWriter fileWriter = new FileWriter(OUTPUT_TXT)) {
+                    caesar.fileDeCrypt(shift, fileReader, fileWriter);
+                }
+                break;
+            }
+            case 3: { // BruteForce
+                System.out.println("Поиск ключа ...");
+                BruteForce bruteForce = new BruteForce();
+                int key = -1;
+                try (
+                    FileReader fileReader = new FileReader(INPUT_PATH)) {
+                    key = bruteForce.findShiftByPatterns(fileReader);
+                }
+                if (key >= 0)
+                    System.out.println("Найден ключ: " + key);
+                else
+                    System.out.println("Ключ не найден");
+                break;
+            }
+            case 4: { // Статистический анализ
+                System.out.println("Статистический анализ ...");
+                Statistic statistic = new Statistic();
+                try {
+                    statistic.decodeBySampleFile(INPUT_PATH, OUTPUT_TXT, OTHER_TXT);
+                } catch (IOException e) {
+                    System.err.println(e.getStackTrace());
+                }
+                break;
+            }
+            default:
+                break;
         }
     }
 }

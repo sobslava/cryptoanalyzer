@@ -29,20 +29,20 @@ public class Statistic extends CommonData {
         Character[] fileSampleStat = createStatistic(fileSample);
         fileSample.close();
 
+        try (
         FileReader fileReader2 = new FileReader(inputPath);
-        FileWriter fileWriter = new FileWriter(outputPath);
+        FileWriter fileWriter = new FileWriter(outputPath)) {
 
-        int ch = fileReader2.read();
-        while (ch != -1) {
-            if (ALPHABET.indexOf(ch) >= 0) {
-                int index = findIndex(fileReaderStat, (char) ch);
-                fileWriter.write(fileSampleStat[index].charValue());
-            } else
-                fileWriter.write(ch);
-            ch = fileReader2.read();
+            int ch = fileReader2.read();
+            while (ch != -1) {
+                if (ALPHABET.indexOf(ch) >= 0) {
+                    int index = findIndex(fileReaderStat, (char) ch);
+                    fileWriter.write(fileSampleStat[index].charValue());
+                } else
+                    fileWriter.write(ch);
+                ch = fileReader2.read();
+            }
         }
-        fileReader2.close();
-        fileWriter.close();
     }
     /**
      * Создаем char[] по частоте встречаемых символов из нашего алфавита ALPHABET
@@ -76,12 +76,14 @@ public class Statistic extends CommonData {
      * @param statistic - мапа статистики по ссылке
      * @return
      */
-    public void addStatistic(char[] buf, HashMap<Character, Integer> statistic) {
+    public void addStatistic(char[] buf, Map<Character, Integer> statistic) {
         IntStream intStream = CharBuffer.wrap(buf).chars();
         intStream.mapToObj(c -> (char) c)
                 .filter(c -> ALPHABET.indexOf(c) >= 0)
                 .forEach(c -> statistic.put(c, statistic.getOrDefault(c, 0) + 1));
     }
 
-    public Statistic() {}
+    public Statistic() {
+        // Пусто
+    }
 }

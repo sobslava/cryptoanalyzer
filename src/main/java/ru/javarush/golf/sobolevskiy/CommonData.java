@@ -12,18 +12,16 @@ public class CommonData {
     /**
      * Буфер в который будут считываться данные из файла
      */
-    public final int BUFFER_SIZE = 4096;
-    public char[] BUFFER = new char[BUFFER_SIZE];
+    public static final int BUFFER_SIZE = 4096;
+    protected static final char[] BUFFER = new char[BUFFER_SIZE];
 
     /**
      * Используемый алфавит для шифровки и дешифровки
      */
-    public final String ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
+    public static final String ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
             "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
             ".,\"\':-!? ";
-    public final char[] ALPHABET_CHAR = ALPHABET.toCharArray();
-
-    List<Character> ALPHABET_LIST = ALPHABET.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
+    protected static final char[] ALPHABET_CHAR = ALPHABET.toCharArray();
 
     /**
      * Пунктуационные паттерны
@@ -38,8 +36,9 @@ public class CommonData {
             "\\.\\s*(\n|\r\n)"
     };
     public final List<Pattern> bruteForcePatterns = Arrays.asList(bruteForceStrPatterns).stream().
-            map(u -> Pattern.compile(u)).collect(Collectors.toList());
+            map(Pattern::compile).collect(Collectors.toList());
 
     public CommonData() {
+        // Пусто
     }
 }

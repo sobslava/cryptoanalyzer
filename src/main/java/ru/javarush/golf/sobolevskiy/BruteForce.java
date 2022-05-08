@@ -8,11 +8,15 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * BruteForce
+ */
 public class BruteForce extends CommonData {
     private final Caesar caesar = new Caesar();
 
-    public BruteForce() {}
-
+    public BruteForce() {
+        // Пусто
+    }
     /**
      * Поиск ключа. Считаем для каждого сдвига число совпадений пунктуационным паттернам.
      * Выводим сдвиг для которого число совпадений больше всего.
@@ -50,10 +54,10 @@ public class BruteForce extends CommonData {
      * @return
      */
     public Long countPatternsMatches(char[] buf, int shift) {
-        String str_buf = caesar.decrypt(buf, shift);
+        String strBuf = caesar.decrypt(buf, shift);
         Long count = Long.valueOf(0);
         for (Pattern pattern : bruteForcePatterns) {
-            count += pattern.matcher(str_buf).results().count();
+            count += pattern.matcher(strBuf).results().count();
         }
         return count;
     }

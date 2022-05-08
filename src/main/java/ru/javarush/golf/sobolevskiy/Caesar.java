@@ -5,7 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Caesar extends CommonData {
-    public Caesar() {}
+    public Caesar() {
+        // Пусто
+    }
 
     public String crypt(char[] buf, int shift) {
         StringBuilder str = new StringBuilder();
