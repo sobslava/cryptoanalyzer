@@ -1,30 +1,34 @@
 package ru.javarush.golf.sobolevskiy;
 
+import org.slf4j.Logger;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import org.slf4j.LoggerFactory;
 
 public class Cryptoanalyzer {
+    public static final Logger logger = LoggerFactory.getLogger(Cryptoanalyzer.class);
     private static final String INPUT_PATH = "input.txt";
     private static final String OUTPUT_TXT = "output.txt";
     private static final String OTHER_TXT = "other.txt";
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Введите номер режима:\n" +
+        logger.info("Введите номер режима:\n" +
                 "\t1. Шифрование\n" +
                 "\t2. Расшифровка\n" +
                 "\t3. Криптоанализ (Brute Force)\n" +
                 "\t4. Статистический анализ\n" +
                 "\t5. ВЫХОД");
-        System.out.println("Программа использует файлы: input.txt, output.txt, other.txt");
+        logger.info("Программа использует файлы: input.txt, output.txt, other.txt");
 
         Scanner console = new Scanner(System.in);
         int mode = console.nextInt();
 
         switch (mode) {
             case 1: { // Шифровка
-                System.out.println("Введите сдвиг:");
+                logger.info("Введите сдвиг:");
                 int shift = console.nextInt();
                 Caesar caesar = new Caesar();
                 try (
@@ -35,7 +39,7 @@ public class Cryptoanalyzer {
                 break;
             }
             case 2: { // Дешифровка
-                System.out.println("Введите сдвиг:");
+                logger.info("Введите сдвиг:");
                 int shift = console.nextInt();
                 Caesar caesar = new Caesar();
                 try (
@@ -46,26 +50,26 @@ public class Cryptoanalyzer {
                 break;
             }
             case 3: { // BruteForce
-                System.out.println("Поиск ключа ...");
+                logger.info("Поиск ключа ...");
                 BruteForce bruteForce = new BruteForce();
-                int key = -1;
+                int key;
                 try (
                     FileReader fileReader = new FileReader(INPUT_PATH)) {
                     key = bruteForce.findShiftByPatterns(fileReader);
                 }
                 if (key >= 0)
-                    System.out.println("Найден ключ: " + key);
+                    logger.info("Найден ключ: {}", key);
                 else
-                    System.out.println("Ключ не найден");
+                    logger.info("Ключ не найден");
                 break;
             }
             case 4: { // Статистический анализ
-                System.out.println("Статистический анализ ...");
+                logger.info("Статистический анализ ...");
                 Statistic statistic = new Statistic();
                 try {
                     statistic.decodeBySampleFile(INPUT_PATH, OUTPUT_TXT, OTHER_TXT);
                 } catch (IOException e) {
-                    System.err.println(e.getStackTrace());
+                    e.printStackTrace();
                 }
                 break;
             }
