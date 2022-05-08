@@ -44,6 +44,7 @@ public class Statistic extends CommonData {
             }
         }
     }
+
     /**
      * Создаем char[] по частоте встречаемых символов из нашего алфавита ALPHABET
      * @param fileReader

@@ -31,7 +31,7 @@ public class Caesar extends CommonData {
                 break;
             int position = ALPHABET.indexOf(ch);
             if (position >= 0) {
-                        int temp = ALPHABET.length() - (shift % ALPHABET.length());
+                        int temp = ALPHABET.length() - shift;
                         str.append(ALPHABET_CHAR[(position + temp) % ALPHABET.length()]);
                 } else {
                 str.append(ch);

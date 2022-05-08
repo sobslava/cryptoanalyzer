@@ -19,8 +19,9 @@ public class Cryptoanalyzer {
                 "\t1. Шифрование\n" +
                 "\t2. Расшифровка\n" +
                 "\t3. Криптоанализ (Brute Force)\n" +
-                "\t4. Статистический анализ\n" +
-                "\t5. ВЫХОД");
+                "\t4. Статистический анализ (частота всех символов)\n" +
+                "\t5. Статистический анализ по пробелу\n" +
+                "\t6. ВЫХОД");
         logger.info("Программа использует файлы: input.txt, output.txt, other.txt");
 
         Scanner console = new Scanner(System.in);
@@ -63,14 +64,20 @@ public class Cryptoanalyzer {
                     logger.info("Ключ не найден");
                 break;
             }
-            case 4: { // Статистический анализ
-                logger.info("Статистический анализ ...");
+            case 4: { // Статистический анализ (частота всех символов)
+                logger.info("Статистический анализ (частота всех символов)");
                 Statistic statistic = new Statistic();
                 try {
                     statistic.decodeBySampleFile(INPUT_PATH, OUTPUT_TXT, OTHER_TXT);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            }
+            case 5: { // Статистический анализ по пробелу
+                logger.info("Статистический анализ по пробелу");
+                StatisticSpace statisticSpace = new StatisticSpace();
+                statisticSpace.decryptBySpacePercentage(INPUT_PATH, OUTPUT_TXT, OTHER_TXT);
                 break;
             }
             default:
