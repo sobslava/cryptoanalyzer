@@ -47,8 +47,8 @@ public class Statistic extends CommonData {
     /**
      * Создаем char[] по частоте встречаемых символов из нашего алфавита ALPHABET
      * @param fileReader
-     * @return
-     * @throws IOException
+     * @return Массив символов упорядоченных по частоте; первый символ - наиболее частый.
+     * @throws IOException - ошибки чтения
      */
     public Character[] createStatistic(FileReader fileReader) throws IOException {
         // Character - символ из нашего алфавита ALPHABET, Integer - число совпадений.
@@ -67,14 +67,13 @@ public class Statistic extends CommonData {
                 .sorted(Map.Entry.<Character, Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (x, y) -> x, LinkedHashMap::new));
-        return statisticSortedByValue.keySet().stream().toArray(Character[]::new);
+        return statisticSortedByValue.keySet().toArray(Character[]::new);
     }
 
     /**
      * Подсчет символов переданных в CharBuffer buf.
      * @param buf - массив символов (не важно, закодированных или нет)
-     * @param statistic - мапа статистики по ссылке
-     * @return
+     * @param statistic - map статистики по ссылке
      */
     public void addStatistic(char[] buf, Map<Character, Integer> statistic) {
         IntStream intStream = CharBuffer.wrap(buf).chars();

@@ -35,7 +35,7 @@ public class CommonData {
             "\\?\\s+[А-Я]",
             "\\.\\s*(\n|\r\n)"
     };
-    public final List<Pattern> bruteForcePatterns = Arrays.asList(bruteForceStrPatterns).stream().
+    public final List<Pattern> bruteForcePatterns = Arrays.stream(bruteForceStrPatterns).
             map(Pattern::compile).collect(Collectors.toList());
 
     public CommonData() {
