@@ -14,7 +14,7 @@ public class Cryptoanalyzer {
     private static final String OUTPUT_TXT = "output.txt";
     private static final String OTHER_TXT = "other.txt";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NotFoundException {
         logger.info("Введите номер режима:\n" +
                 "\t1. Шифрование\n" +
                 "\t2. Расшифровка\n" +

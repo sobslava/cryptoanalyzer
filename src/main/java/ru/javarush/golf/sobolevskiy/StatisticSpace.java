@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -16,7 +17,7 @@ public class StatisticSpace extends CommonData {
         // Пусто
     }
 
-    public void decryptBySpacePercentage(String inputPath, String outputPath, String otherPath) {
+    public void decryptBySpacePercentage(String inputPath, String outputPath, String otherPath) throws NotFoundException {
         // Процент пробелов в примере
         Double samplePercentage = spacePercentage(otherPath, 0);
 
@@ -38,10 +39,11 @@ public class StatisticSpace extends CommonData {
 
         // Первый элемент является ключом
         int key;
-        if (differenceSorted.entrySet().stream().findFirst().isEmpty())
-            throw new RuntimeException("Не найден элемент с ключом");
+        Optional<Map.Entry<Integer, Double>> temp = differenceSorted.entrySet().stream().findFirst();
+        if (temp.isEmpty())
+            throw new NotFoundException(1, "Не найден элемент с ключом");
         else
-            key = differenceSorted.entrySet().stream().findFirst().get().getKey();
+            key = temp.get().getKey();
 
         // Расшифровываем этим ключом
         Caesar caesar = new Caesar();
@@ -51,7 +53,7 @@ public class StatisticSpace extends CommonData {
         ) {
             caesar.fileDeCrypt(key, fileReader, fileWriter);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException(2, e.getMessage());
         }
     }
 
@@ -62,7 +64,7 @@ public class StatisticSpace extends CommonData {
      * @param shift
      * @return
      */
-    public Double spacePercentage(String readFile, int shift) {
+    public Double spacePercentage(String readFile, int shift) throws NotFoundException {
         int spaceCount = 0; // Число пробелов
         int numberOfChar = 0; // Общее количество символов
         Caesar caesar = new Caesar();
@@ -76,7 +78,7 @@ public class StatisticSpace extends CommonData {
                 chars = fileReader.read(BUFFER);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException(3, e.getMessage());
         }
         if (numberOfChar != 0)
             return Double.valueOf(100.0 * spaceCount / numberOfChar);
